@@ -1,13 +1,13 @@
 import pytest
-from conftest import driver
+import allure
 from pages.page_object_create_order_methods import OrderKickscooter
 from pages.qa_scooter_main_page import OrderMainPage
 from pages.page_personal_details import OrderConfirmed
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
+from locators import StartPageScooterLocators
 
+@allure.story('tests')
 class TestCreateOrder:
+    @allure.title('test create order top button')
     @pytest.mark.parametrize("name,surname,adress",[
         ("Михаил","Михайлов","Ленинский проспект"),
         ("РР", "РР", "Улица Мира")
@@ -37,8 +37,7 @@ class TestCreateOrder:
         elements = order_confirmation.get_elements_order_confirmed()
         assert any("Заказ оформлен" in element for element in elements)
 
-
-
+    @allure.title('test create order down button')
     @pytest.mark.parametrize("name,surname,adress",[
         ("Джонни","Депп","Патриаршие Пруды"),
         ("ФФФ", "ФФФ", "Улица улиц")
@@ -52,10 +51,7 @@ class TestCreateOrder:
         order_scooter = OrderKickscooter(driver)
         order_scooter.go_to_site('https://qa-scooter.praktikum-services.ru')
         order_scooter_main_page = OrderMainPage(driver)
-        element = driver.find_element(By.XPATH, "//div/div[5]/button[text()='Заказать']")
-        driver.execute_script("arguments[0].scrollIntoView();", element)
-        WebDriverWait(driver, 3).until(expected_conditions.element_to_be_clickable((By.XPATH, "//div/div[5]/button[text()='Заказать']")))
-        order_scooter_main_page.click_on_order_button_footer()  # кликаем на кнопку заказать снизу
+        order_scooter_main_page.scroll_and_click_element(StartPageScooterLocators.ORDER_BUTTON_FOOTER)
         order_scooter.set_name(name)
         order_scooter.set_surname(surname)
         order_scooter.set_adress(adress)
