@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
@@ -48,6 +49,7 @@ class DropDownQuestions(BasePage):
         self.driver = driver
 
     # метод получения текста из элемента
+    @allure.step("Get element's text")
     def get_text_from_element(self, locator):
         element = self.find_element_located(locator)
         text = element.get_attribute('textContent')

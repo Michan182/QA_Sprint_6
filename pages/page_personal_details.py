@@ -1,3 +1,4 @@
+import allure
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
@@ -8,6 +9,8 @@ class OrderConfirmed(BasePage):
     def __init__(self, driver):
         super().__init__(driver)
         self.driver = driver
+
+    @allure.step("Get elements text")
     def get_elements_order_confirmed(self):
         all_elements = self.find_elements_located(OrderConfirmedLocators.LOCATOR_ORDER_CONFIRMED)
         order_confirmed_text = [element.text for element in all_elements]
